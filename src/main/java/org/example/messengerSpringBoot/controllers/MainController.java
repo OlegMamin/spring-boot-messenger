@@ -46,7 +46,9 @@ public class MainController {
     public String add(
             @AuthenticationPrincipal User user,
             @RequestParam String text,
-            @RequestParam String tag, Map<String, Object> model
+            @RequestParam String tag,
+            @RequestParam(required = false, defaultValue = "") String filter,
+            Model model
     ) {
         Message message = new Message(text, tag, user);
 
@@ -54,7 +56,8 @@ public class MainController {
 
         Iterable<Message> messages = messageRepo.findAll();
 
-        model.put("messages", messages);
+        model.addAttribute("messages", messages);
+        model.addAttribute("filter", filter);
 
         return "main";
     }

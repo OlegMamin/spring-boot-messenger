@@ -1,20 +1,23 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/login.ftl" as l>
+
 <@c.page>
-    <@l.logout />
     <div>
-        <span><a href="/user">User list</a> </span>
-        <form method="post">
-            <input type="text" name="text" placeholder="Enter your message"/>
-            <input type="text" name="tag" placeholder="Tag"/>
-            <input type="hidden" name="_csrf" value="{_csrf.token}">
-            <button type="submit">Add</button>
+        <@l.logout />
+        <span><a href="/user">User list</a></span>
+    </div>
+    <div>
+        <form method="post" action="/main">
+            <input type="text" name="text" placeholder="Message" />
+            <input type="text" name="tag" placeholder="Tag">
+            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+            <button type="submit">Добавить</button>
         </form>
     </div>
-    <h3>Message list:</h3>
+    <div>Список сообщений</div>
     <form method="get" action="/main">
         <input type="text" name="filter" value="${filter}">
-        <button type="submit">Find</button>
+        <button type="submit">Найти</button>
     </form>
     <#list messages as message>
         <div>
@@ -23,6 +26,7 @@
             <i>${message.tag}</i>
             <strong>${message.authorName}</strong>
         </div>
-    <#else><h4>No messages</h4>
+    <#else>
+        No message
     </#list>
 </@c.page>
